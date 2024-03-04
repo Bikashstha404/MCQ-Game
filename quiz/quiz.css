@@ -43,7 +43,15 @@ button {
     border-radius: 10px;
     cursor: pointer;
 }
+.next{
+    background-color: black;
+    color: white;
+}
 
-button:hover {
-    background-color: red;
+.btn:hover {
+    background-color: lightslategray;
+}
+
+.next:hover{
+    background-color: orange;
 }

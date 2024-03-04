@@ -101,19 +101,46 @@ const questions = [
     }
   ];
 
-  let questionNo = 0;
-  let score = 0;
-  
-  function showQuestion(qNo){
-    qn = questions[qNo];
-    number = qNo + 1;
-    console.log(qn)
+    let questionNumber = 0;
 
-    document.querySelector('.question').innerHTML = number + ". " + qn.question;
-    document.querySelector('#ans1').innerHTML = qn.options[0];
-    document.querySelector('#ans2').innerHTML = qn.options[1];
-    document.querySelector('#ans3').innerHTML = qn.options[2];
-    document.querySelector('#ans4').innerHTML = qn.options[3];
-  }
+    function showQuestion(){
+      document.querySelector('.next').style.display = "none";
+      q = questions[questionNumber];
+      number = questionNumber + 1;
+      realAns = q.answer;
 
-  showQuestion(0);
+      document.querySelector('.question').innerHTML = number + ". " + q.question
+      document.querySelector('#ans1').innerHTML = q.options[0];
+      document.querySelector('#ans2').innerHTML = q.options[1];
+      document.querySelector('#ans3').innerHTML = q.options[2];
+      document.querySelector('#ans4').innerHTML = q.options[3];
+
+      document.querySelectorAll('.btn').forEach((button)=>{
+          button.addEventListener("click", checkAnswer)
+      })
+    }
+
+    function checkAnswer(event){
+      clickedAns = event.target.innerHTML;
+      let buttons = document.querySelectorAll('.btn');
+      // console.log(clickedAns)
+      if(clickedAns == realAns){
+        event.target.style.backgroundColor = "green";
+      }
+      else{
+        event.target.style.backgroundColor = "red";
+        for(let i = 0; i < buttons.length; i++){
+          if(buttons[i].innerHTML == realAns){
+            buttons[i].style.backgroundColor = "green";
+          }
+        }
+      }
+      document.querySelectorAll('.btn').forEach((button)=>{
+        button.removeEventListener("click", checkAnswer);
+        document.querySelector('.next').style.display="block";
+      });
+    }
+
+    
+
+    showQuestion()
