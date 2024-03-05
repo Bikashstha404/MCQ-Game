@@ -12,12 +12,12 @@ const questions = [
     {
       question: "Which HTML tag is used to define an unordered list?",
       options: [
-        "<ul>",
-        "<ol>",
-        "<li>",
-        "<dl>"
+        "ul",
+        "ol",
+        "li",
+        "dl"
       ],
-      answer: "<ul>"
+      answer: "ul"
     },
     {
       question: "What does HTML stand for?",
@@ -42,19 +42,19 @@ const questions = [
     {
       question: "Inside which HTML element do we put the JavaScript?",
       options: [
-        "<js>",
-        "<scripting>",
-        "<javascript>",
-        "<script>"
+        "js",
+        "scripting",
+        "javascript",
+        "script"
       ],
-      answer: "<script>"
+      answer: "script"
     },
     {
       question: "How can you add a comment in a JavaScript?",
       options: [
         "// This is a comment",
         "' This is a comment",
-        "<!-- This is a comment -->",
+        "#This is a comment",
         "/* This is a comment */"
       ],
       answer: "// This is a comment"
@@ -101,19 +101,30 @@ const questions = [
     }
   ];
 
-    let questionNumber = 0;
+    let questionNumber = 9;
+    let score = 0;
+    function reset(){
+      document.querySelectorAll('.btn').forEach((btn) =>{
+        btn.style.backgroundColor = "burlywood";
+      });
+      document.querySelector('.next').style.display = "none";
+    }
 
     function showQuestion(){
-      document.querySelector('.next').style.display = "none";
+      reset()
       q = questions[questionNumber];
       number = questionNumber + 1;
       realAns = q.answer;
 
       document.querySelector('.question').innerHTML = number + ". " + q.question
-      document.querySelector('#ans1').innerHTML = q.options[0];
-      document.querySelector('#ans2').innerHTML = q.options[1];
-      document.querySelector('#ans3').innerHTML = q.options[2];
-      document.querySelector('#ans4').innerHTML = q.options[3];
+      // document.querySelector('#ans1').innerHTML = q.options[0];
+      // document.querySelector('#ans2').innerHTML = q.options[1];
+      // document.querySelector('#ans3').innerHTML = q.options[2];
+      // document.querySelector('#ans4').innerHTML = q.options[3];
+
+      document.querySelectorAll('.btn').forEach((option, index) => {
+        option.innerHTML = q.options[index];
+      });
 
       document.querySelectorAll('.btn').forEach((button)=>{
           button.addEventListener("click", checkAnswer)
@@ -126,6 +137,7 @@ const questions = [
       // console.log(clickedAns)
       if(clickedAns == realAns){
         event.target.style.backgroundColor = "green";
+        score++;
       }
       else{
         event.target.style.backgroundColor = "red";
@@ -141,6 +153,26 @@ const questions = [
       });
     }
 
-    
+    document.querySelector('.next').addEventListener("click",(event)=>{
+      if(questionNumber < (questions.length -1)){
+        questionNumber = questionNumber + 1;
+        showQuestion()
+      }
+      else{
+        showscores()
+      }
+    })
+
+    function showscores(){
+      reset()
+      document.querySelector('.question').innerHTML = `You have scored ${score} out of 10.`
+      document.querySelector('#ans1').innerHTML = "Play Again";
+      document.querySelector('.next').style.display="block";
+      document.querySelector('#ans2').innerHTML = "None";
+      document.querySelector('#ans3').style.display = "None";
+      document.querySelector('#ans4').style.display = "None";
+
+
+    }
 
     showQuestion()
