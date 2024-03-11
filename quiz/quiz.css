@@ -38,20 +38,21 @@ button {
     padding: 10px;
     font-size: 18px;
     color: black;
-    background-color: burlywood;
+    background-color: #f8f9fa;
     /* border: none; */
     border-radius: 10px;
     cursor: pointer;
 }
 .next{
-    background-color: black;
-    color: white;
+    background-color: coral;
+    color: black;
 }
 
+
 .btn:hover {
-    background-color: lightslategray;
+    background-color: orange;
 }
 
 .next:hover{
-    background-color: orange;
+    background-color: yellowgreen;
 }

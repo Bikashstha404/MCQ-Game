@@ -101,78 +101,132 @@ const questions = [
     }
   ];
 
-    let questionNumber = 9;
-    let score = 0;
-    function reset(){
-      document.querySelectorAll('.btn').forEach((btn) =>{
-        btn.style.backgroundColor = "burlywood";
-      });
-      document.querySelector('.next').style.display = "none";
-    }
+const next = document.querySelector('.next');
+const buttons = document.querySelectorAll('.btn');
+const Question = document.querySelector('.question');
+const highScores = document.querySelector('.high_scores');
 
-    function showQuestion(){
-      reset()
-      q = questions[questionNumber];
-      number = questionNumber + 1;
-      realAns = q.answer;
+let questionNumber = 0;
+let score = 0;
 
-      document.querySelector('.question').innerHTML = number + ". " + q.question
-      // document.querySelector('#ans1').innerHTML = q.options[0];
-      // document.querySelector('#ans2').innerHTML = q.options[1];
-      // document.querySelector('#ans3').innerHTML = q.options[2];
-      // document.querySelector('#ans4').innerHTML = q.options[3];
+function start_mcq(){
+  questionNumber = 0;
+  score = 0;
+  for(let i = 0; i < 4; i++){
+    buttons[i].style.display = "block";
+  }
+  next.innerHTML = "Next";
+  next.style.backgroundColor = "coral"
+  showQuestion()
+}
 
-      document.querySelectorAll('.btn').forEach((option, index) => {
-        option.innerHTML = q.options[index];
-      });
+function remodel(){
+  for(let i = 0; i < 4; i++){
+    buttons[i].style.backgroundColor = "#f8f9fa"
+  }
+  next.style.display = "None";
+  highScores.style.display = "None";
+}
 
-      document.querySelectorAll('.btn').forEach((button)=>{
-          button.addEventListener("click", checkAnswer)
+function showQuestion(){
+  remodel()
+  addHover()
+  q = questions[questionNumber];
+  number = questionNumber + 1;
+  realAns = q.answer;
+  Question.innerHTML = number + ". " + q.question;
+  for(let i = 0; i < 4; i++){
+    buttons[i].innerHTML = q.options[i];
+  }
+  for(let i=0; i < 4; i++){
+    buttons[i].addEventListener("click", checkAnswer)
+  }
+}
+
+function checkAnswer(event){
+  removeHover()
+  clickedAns = event.target.innerHTML;
+  if(clickedAns == realAns){
+    event.target.style.backgroundColor = "lightgreen";
+    score++;
+  }
+  else{
+    
+    event.target.style.backgroundColor = "red";
+    for(let i = 0; i < 4; i++){
+      buttons[i].removeEventListener("mouseenter",()=>{
+        buttons[i].style.backgroundColor = "";
       })
+      if(buttons[i].innerHTML == realAns){
+        buttons[i].style.backgroundColor = "lightgreen";
+      }
     }
+  }
+  for(let i=0; i < 4; i++){
+    buttons[i].removeEventListener("click", checkAnswer)
+  }
+  next.style.display = "block";
+}
 
-    function checkAnswer(event){
-      clickedAns = event.target.innerHTML;
-      let buttons = document.querySelectorAll('.btn');
-      // console.log(clickedAns)
-      if(clickedAns == realAns){
-        event.target.style.backgroundColor = "green";
-        score++;
-      }
-      else{
-        event.target.style.backgroundColor = "red";
-        for(let i = 0; i < buttons.length; i++){
-          if(buttons[i].innerHTML == realAns){
-            buttons[i].style.backgroundColor = "green";
-          }
-        }
-      }
-      document.querySelectorAll('.btn').forEach((button)=>{
-        button.removeEventListener("click", checkAnswer);
-        document.querySelector('.next').style.display="block";
-      });
-    }
+next.addEventListener("click",nextButton);
 
-    document.querySelector('.next').addEventListener("click",(event)=>{
-      if(questionNumber < (questions.length -1)){
-        questionNumber = questionNumber + 1;
-        showQuestion()
-      }
-      else{
-        showscores()
-      }
-    })
+function nextButton(){
+  questionNumber = questionNumber + 1;
+  if(questionNumber < questions.length + 1){
+    nextQuestion()
+  }
+  else{
+    start_mcq()
+  }
+}
 
-    function showscores(){
-      reset()
-      document.querySelector('.question').innerHTML = `You have scored ${score} out of 10.`
-      document.querySelector('#ans1').innerHTML = "Play Again";
-      document.querySelector('.next').style.display="block";
-      document.querySelector('#ans2').innerHTML = "None";
-      document.querySelector('#ans3').style.display = "None";
-      document.querySelector('#ans4').style.display = "None";
-
-
-    }
-
+function nextQuestion(){
+  if(questionNumber < questions.length){
     showQuestion()
+  }
+  else{
+    showScores()
+  }
+}
+
+function showScores(){
+  remodel();
+  Question.innerHTML =  `You have scored ${score} out of 10.`
+  next.style.display = "block"
+  next.innerHTML = "Play Again"
+  next.style.backgroundColor = "#f8f9fa";
+  for(let i = 0; i < 4; i++){
+    buttons[i].style.display = "none";
+  }
+  highScores.style.display = "block";
+}
+
+start_mcq()
+
+function addHover(){
+  for(let i = 0; i < 4; i++){
+    buttons[i].addEventListener("mouseenter", mouseEnterHandler);
+    buttons[i].addEventListener("mouseleave", mouseLeaveHandler);
+  }
+  next.addEventListener("mouseenter",()=>{
+    next.style.backgroundColor = "yellowgreen";
+  })
+  next.addEventListener("mouseleave",()=>{
+    next.style.backgroundColor = "coral";
+  })
+}
+
+function removeHover(){
+  for(let i = 0; i < 4; i++){
+    buttons[i].removeEventListener("mouseenter", mouseEnterHandler);
+    buttons[i].removeEventListener("mouseleave", mouseLeaveHandler);
+  }
+}
+
+function mouseEnterHandler() {
+  this.style.backgroundColor = "orange";
+}
+
+function mouseLeaveHandler() {
+  this.style.backgroundColor = "#f8f9fa";
+}
