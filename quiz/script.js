@@ -226,4 +226,5 @@ function mouseEnterHandler() {
 function mouseLeaveHandler() {
     this.style.backgroundColor = "black";
 }
+
 start_mcq();
