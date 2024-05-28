@@ -29,7 +29,6 @@ body {
     color: black;
 }
 
-/* Label Style */
 .labels {
     display: inline-block;
     font-weight: bold;
@@ -37,11 +36,11 @@ body {
     margin-right: 7vw;
 }
 
-#password {
-    margin-right: 5vw;
+#password_label {
+    margin-right: 4.8vw;
 }
 
-#confirm_password{
+#confirm_password_label{
     margin-right: 0.5vw;
 }
 .inputs {
