@@ -110,8 +110,8 @@ var question_no;
 var score;
 
 function start_mcq() {
-    question_no = 0;
-    score = 0;
+    question_no = 9;
+    score = 3;
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].style.display = "block";
     }
@@ -153,7 +153,7 @@ function checkAnswer(event) {
         event.target.style.backgroundColor = "green";
         score++;
     }
-    else {  
+    else {
         event.target.style.backgroundColor = "red";
         for (let i = 0; i < 4; i++) {
             if (buttons[i].innerHTML == realAns) {
@@ -169,36 +169,62 @@ function checkAnswer(event) {
 
 next.addEventListener("click", next_que);
 
-function next_que(){
+function next_que() {
     question_no += 1;
-    if(question_no <= mcq_questions.length){
+    if (question_no <= mcq_questions.length) {
         nextQuestion();
     }
-    else{
+    else {
         start_mcq();
     }
 }
 
-function nextQuestion(){
-    if(question_no < mcq_questions.length){
+function nextQuestion() {
+    if (question_no < mcq_questions.length) {
         showQuestion()
-      }
-      else{
+    }
+    else {
         showScores()
-      }
+        let user = JSON.parse(localStorage.getItem("current_user"))
+        let name = user.name;
+        let email = user.email;
+        let current_user = null;
+        let current_user_index = null;
+
+        let score_data_array = JSON.parse(localStorage.getItem("scores_data")) || []
+        if (score_data_array.length > 0) {
+            current_user = score_data_array.find(user => user.email == email);
+            current_user_index = score_data_array.findIndex(user => user.email == email);
+        }
+
+        if (current_user) {
+            if (current_user.score > score) {
+                score = current_user.score
+            }
+            score_data_array[current_user_index].score = score;
+        } else {
+            let score_data = {
+                name: name,
+                email: email,
+                score: score
+            }
+            score_data_array.push(score_data)
+        }
+        localStorage.setItem("scores_data", JSON.stringify(score_data_array))
+    }
 }
 
-function showScores(){
+function showScores() {
     reset();
-    question.innerHTML =  `You have scored ${score} out of 10.`
+    question.innerHTML = `You have scored ${score} out of 10.`
     next.style.display = "block"
     next.innerHTML = "Play Again"
-    next.style.backgroundColor = "#f8f9fa";
-    for(let i = 0; i < 4; i++){
-      buttons[i].style.display = "none";
+    next.style.backgroundColor = "black";
+    for (let i = 0; i < 4; i++) {
+        buttons[i].style.display = "none";
     }
     high_scores.style.display = "block";
-  }
+}
 
 function addHover() {
     for (let i = 0; i < 4; i++) {
@@ -207,7 +233,7 @@ function addHover() {
     }
     next.addEventListener("mouseenter", mouseEnterHandler)
     next.addEventListener("mouseleave", mouseLeaveHandler)
-    
+
     high_scores.addEventListener("mouseenter", mouseEnterHandler)
     high_scores.addEventListener("mouseleave", mouseLeaveHandler)
 }

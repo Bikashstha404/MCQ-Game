@@ -13,6 +13,10 @@ function login(){
     }
 
     check_email = true;
+    // if (user_data_array.some(user => user.email === email)) {
+    //     alert("The email is already in use.");
+    //     return;
+    // }
     for(let i=0; i < user_data_array.length; i++){
         if(user_data_array[i].email == email){
             check_email = false
@@ -20,6 +24,8 @@ function login(){
                 alert("Incorrect Password")
                 return
             }
+            let user_data = user_data_array.find(user => user.email == email);
+            localStorage.setItem("current_user", JSON.stringify(user_data))
             break
         }
     }

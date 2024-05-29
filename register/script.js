@@ -10,7 +10,7 @@ function register() {
     let confirm_password = confirm_password_data.value
 
     let user_data_array = JSON.parse(localStorage.getItem("user_data")) || [];
-    console.log(user_data_array)
+    
     if (!name || !email || !password || !confirm_password) {
         alert("All fields must be completd.")
         return

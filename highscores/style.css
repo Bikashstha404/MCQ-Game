@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../images/background\ image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+}
+
+.container {
+    margin-top: 7vh;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50vw;
+    height: 75vh;
+}
+
+.highscores_head {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 18px;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 2px solid black;
+}
+
+th {
+    background-color: whitesmoke;
+    font-weight: bold;
+}
+
+
+thead th:nth-child(1) {
+    width: 5vw;
+}
+
+thead th:nth-child(3) {
+    width: 5vw;
+}
